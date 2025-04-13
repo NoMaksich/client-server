@@ -1,0 +1,5 @@
+Date and time: 2025-04-13 21:53:06 | Critical: No | Error: Client maxim authenticated successfully
+Date and time: 2025-04-13 21:53:36 | Critical: No | Error: Client goga authenticated successfully
+Date and time: 2025-04-13 21:53:49 | Critical: No | Error: Connection rejected: server has too many clients
+Date and time: 2025-04-13 22:02:28 | Critical: No | Error: Client rejected due to max client limit
+Date and time: 2025-04-13 22:02:28 | Critical: No | Error: Authentication failed for user: vadim

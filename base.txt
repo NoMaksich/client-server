@@ -1,0 +1,5 @@
+user:P@ssW0rd
+maxim:all
+goga:stop
+lena:ale
+vadim:shatov
