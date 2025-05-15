@@ -1,5 +1,5 @@
 #include "Server.h"
-#include "ErrorLog.h"  // добавлено для логирования
+#include "ErrorLog.h"
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -69,6 +69,9 @@ void Server::acceptClients() {
 void Server::handleClient(int client_sock) {
     std::string username, password;
     try {
+        // Отправляем клиенту сигнал о необходимости авторизации
+        sendString(client_sock, "AUTH_REQUEST");
+
         if (!authenticate(client_sock, username, password)) {
             sendString(client_sock, "AUTH_FAIL");
             ErrorLog::logClientError(false, "Authentication failed for client");
@@ -96,6 +99,7 @@ void Server::handleClient(int client_sock) {
 
     safeClose(client_sock);
 }
+
 
 bool Server::authenticate(int sock, std::string& username, std::string& password) {
     username = receiveString(sock);
@@ -227,4 +231,3 @@ Server::~Server() {
         close(client_sock);
     }
 }
-
