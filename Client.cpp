@@ -1,5 +1,5 @@
 #include "Client.h"
-#include "ErrorLog.h"  // Добавляем логирование
+#include "ErrorLog.h"
 
 #include <iostream>
 #include <fstream>
@@ -44,19 +44,32 @@ void Client::connectToServer() {
 }
 
 bool Client::authenticate() {
-    sendString(username);
-    sendString(password);
+    std::string firstResponse = receiveString();
 
-    std::string response = receiveString();
-    if (response == "AUTH_OK") {
-        std::cout << "Authentication successful!" << std::endl;
-        return true;
+    if (firstResponse == "ERROR_TOO_MANY_CLIENTS") {
+        std::cerr << "Server is full. Too many clients connected." << std::endl;
+        close(sock);
+        return false;
+    } else if (firstResponse == "AUTH_REQUEST") {
+        sendString(username);
+        sendString(password);
+
+        std::string authResponse = receiveString();
+        if (authResponse == "AUTH_OK") {
+            std::cout << "Authenticated successfully!" << std::endl;
+            return true;
+        } else {
+            std::cerr << "Authentication failed!" << std::endl;
+            close(sock);
+            return false;
+        }
     } else {
-        std::cout << "Authentication failed!" << std::endl;
-        ErrorLog::logClientError(false, "Authentication failed for user: " + username);
+        std::cerr << "Unexpected response from server: " << firstResponse << std::endl;
+        close(sock);
         return false;
     }
 }
+
 
 void Client::uploadFile(const std::string& filepath, const std::string& destinationDir) {
     std::ifstream file(filepath, std::ios::binary | std::ios::ate);
@@ -146,4 +159,3 @@ std::string Client::receiveString() {
     }
     return std::string(buffer.begin(), buffer.end());
 }
-
