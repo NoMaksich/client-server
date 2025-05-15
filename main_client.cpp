@@ -2,12 +2,11 @@
 #include <iostream>
 
 int main() {
-    std::string server_ip = "127.0.0.1"; // Укажите IP сервера
-    unsigned short server_port = 33333;  // Укажите порт сервера
+    std::string server_ip = "127.0.0.1";
+    unsigned short server_port = 33333;
     std::string username;
     std::string password;
 
-    // Вводим логин и пароль
     std::cout << "Enter username: ";
     std::cin >> username;
 
@@ -15,13 +14,10 @@ int main() {
     std::cin >> password;
 
     try {
-        // Создаем объект клиента
         Client client(server_ip, server_port, username, password);
 
-        // Подключаемся к серверу
         client.connectToServer();
 
-        // Пытаемся пройти аутентификацию
         if (client.authenticate()) {
             std::string command;
             while (true) {
