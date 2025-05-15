@@ -1,6 +1,3 @@
-#ifndef CLIENT_H
-#define CLIENT_H
-
 #include <string>
 #include <iostream>
 #include <stdexcept>
@@ -28,6 +25,4 @@ private:
     bool sendString(const std::string& message);
     std::string receiveString();
 };
-
-#endif // CLIENT_H
 
